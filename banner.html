@@ -4,6 +4,7 @@
     <title>App Banner</title>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Function to get query parameter value by name
         function getQueryParam(name) {
             var urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(name);
@@ -11,12 +12,15 @@
 
         var appId = getQueryParam('appId');
         if (appId) {
+            // Create the meta tag
             var metaTag = document.createElement('meta');
             metaTag.name = "apple-itunes-app";
             metaTag.content = `app-id=${appId}, app-argument=myURL`;
 
+            // Append the meta tag to the head
             document.head.appendChild(metaTag);
 
+            // Display the meta tag as text for verification
             document.getElementById('bannerMeta').innerText = `<meta name="apple-itunes-app" content="app-id=${appId}, app-argument=myURL">`;
         } else {
             document.getElementById('bannerMeta').innerText = 'No App ID found in URL. Please go back and enter the App ID.';

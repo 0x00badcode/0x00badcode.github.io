@@ -6,23 +6,20 @@
 <body>
     <h1>Search for an App</h1>
     <input type="text" id="searchInput" placeholder="Enter app name...">
-    <button onclick="generateLink()">Generate Link</button>
-    <p>Click the link below to view the app details:</p>
-    <p><a id="apiLink" href="#" target="_blank">Open App Details</a></p>
-    <p>Copy the entire content of the page that opens and paste it into the field below:</p>
+    <button onclick="redirectToAppPage()">Generate Link and Redirect</button>
+    <p>After opening the link, copy the entire content of the page and paste it into the field below:</p>
     <textarea id="pageContent" rows="10" cols="50" placeholder="Paste the page content here..."></textarea>
     <button onclick="extractAppId()">Extract App ID</button>
     <p id="appIdDisplay">App ID will be displayed here.</p>
     <button id="bannerButton" style="display:none;" onclick="redirectToBanner()">Go to Banner Page</button>
 
     <script>
-    function generateLink() {
+    function redirectToAppPage() {
         var searchTerm = document.getElementById('searchInput').value;
         var encodedSearchTerm = encodeURIComponent(searchTerm.trim());
         var targetUrl = `https://tools.applemediaservices.com/api/apple-media/apps/US/search.json?types=apps,app-bundles&term=${encodedSearchTerm}&limit=25&l=en-US&platform=iphone&additionalPlatforms=iphone,mac,appletv,ipad,watch,web`;
 
-        var apiLink = document.getElementById('apiLink');
-        apiLink.href = targetUrl;
+        window.open(targetUrl, '_blank');
     }
 
     function extractAppId() {
@@ -32,8 +29,10 @@
             var appId = appIdMatch[1];
             document.getElementById('appIdDisplay').textContent = `App ID: ${appId}`;
 
+            // Store the appId for redirection
             localStorage.setItem('appId', appId);
 
+            // Show the button to go to the banner page
             document.getElementById('bannerButton').style.display = 'block';
         } else {
             document.getElementById('appIdDisplay').textContent = 'App ID not found. Please ensure you copied the entire page content.';
