@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>App Banner</title>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var appId = localStorage.getItem('appId');
+        if (appId) {
+            var metaTag = `<meta name="apple-itunes-app" content="app-id=${appId}, app-argument=myURL">`;
+            document.getElementById('bannerMeta').innerText = metaTag;
+        } else {
+            document.getElementById('bannerMeta').innerText = 'No App ID found. Please go back and enter the App ID.';
+        }
+    });
+    </script>
+</head>
+<body>
+    <h1>App Banner</h1>
+    <p id="bannerMeta">Banner code will be displayed here.</p>
+</body>
+</html>
