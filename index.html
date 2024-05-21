@@ -21,7 +21,6 @@
         var encodedSearchTerm = encodeURIComponent(searchTerm.trim());
         var targetUrl = `https://tools.applemediaservices.com/api/apple-media/apps/US/search.json?types=apps,app-bundles&term=${encodedSearchTerm}&limit=25&l=en-US&platform=iphone&additionalPlatforms=iphone,mac,appletv,ipad,watch,web`;
 
-        // Update the href of the link to point to the constructed URL
         var apiLink = document.getElementById('apiLink');
         apiLink.href = targetUrl;
     }
@@ -33,10 +32,8 @@
             var appId = appIdMatch[1];
             document.getElementById('appIdDisplay').textContent = `App ID: ${appId}`;
 
-            // Store the appId for redirection
             localStorage.setItem('appId', appId);
 
-            // Show the button to go to the banner page
             document.getElementById('bannerButton').style.display = 'block';
         } else {
             document.getElementById('appIdDisplay').textContent = 'App ID not found. Please ensure you copied the entire page content.';
@@ -44,7 +41,13 @@
     }
 
     function redirectToBanner() {
-        window.location.href = 'banner.html';
+        var appId = localStorage.getItem('appId');
+        if (appId) {
+            var bannerUrl = `banner.html?appId=${appId}`;
+            window.location.href = bannerUrl;
+        } else {
+            alert('No App ID found. Please extract the App ID first.');
+        }
     }
     </script>
 </body>

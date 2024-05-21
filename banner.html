@@ -4,12 +4,22 @@
     <title>App Banner</title>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        var appId = localStorage.getItem('appId');
+        function getQueryParam(name) {
+            var urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        var appId = getQueryParam('appId');
         if (appId) {
-            var metaTag = `<meta name="apple-itunes-app" content="app-id=${appId}, app-argument=myURL">`;
-            document.getElementById('bannerMeta').innerText = metaTag;
+            var metaTag = document.createElement('meta');
+            metaTag.name = "apple-itunes-app";
+            metaTag.content = `app-id=${appId}, app-argument=myURL`;
+
+            document.head.appendChild(metaTag);
+
+            document.getElementById('bannerMeta').innerText = `<meta name="apple-itunes-app" content="app-id=${appId}, app-argument=myURL">`;
         } else {
-            document.getElementById('bannerMeta').innerText = 'No App ID found. Please go back and enter the App ID.';
+            document.getElementById('bannerMeta').innerText = 'No App ID found in URL. Please go back and enter the App ID.';
         }
     });
     </script>
