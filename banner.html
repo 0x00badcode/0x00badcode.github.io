@@ -4,29 +4,42 @@
     <title>App Download</title>
     <style>
         body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #fff;
+            background-color: #f7f7f7;
             margin: 0;
             padding: 20px;
             color: #333;
+            min-height: 100vh;
             text-align: center;
         }
         .container {
             max-width: 600px;
-            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
         h1 {
-            font-size: 24px;
+            font-size: 28px;
             margin-bottom: 20px;
+            color: #017efd;
         }
         img.logo {
-            left: auto;
-            max-width: 200px;
+            max-width: 150px;
+            margin-bottom: 20px;
         }
         p {
             font-size: 18px;
             margin: 10px 0;
+            line-height: 1.6;
+        }
+        .highlight {
+            font-weight: bold;
         }
     </style>
     <script>
@@ -45,7 +58,7 @@
 
             document.head.appendChild(metaTag);
 
-            document.getElementById('appNameDisplay').innerHTML = `Thank you for using VisionAppList to download <b>${appName}</b>! <br><br> please click on the download button on the banner to begin downloading.`;
+            document.getElementById('appNameDisplay').innerHTML = `Thank you for using VisionAppList to download <span class="highlight">${appName}</span>!<br><br> Please click on the download button on the banner to begin downloading.<br><br>(The banner won't show on desktop, but will show on the Vision Pro)`;
 
         } else {
             document.getElementById('appNameDisplay').innerText = 'No App ID or name found in URL. Please go back and enter the App ID.';
@@ -55,7 +68,7 @@
 </head>
 <body>
     <div class="container">
-        <img src="visionapplist.png" alt="Logo" class="logo">
+        <img src="visionapplist.png" alt="Vision App List Logo" class="logo">
         <h1>App Download</h1>
         <p id="appNameDisplay"></p>
     </div>

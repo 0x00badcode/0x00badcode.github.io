@@ -8,7 +8,7 @@
             flex-direction: column;
             justify-content: space-between;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #fff;
+            background-color: #f7f7f7;
             margin: 0;
             padding: 20px;
             color: #333;
@@ -17,6 +17,10 @@
         .container {
             max-width: 600px;
             margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
         input[type="text"], textarea {
@@ -26,6 +30,7 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
+            font-size: 16px;
         }
         button {
             background-color: #017efd;
@@ -36,25 +41,28 @@
             border-radius: 4px;
             cursor: pointer;
             font-size: 16px;
+            transition: background-color 0.3s;
         }
         button:hover {
             background-color: #035fbb;
         }
         img.logo {
-            left: auto;
-            max-width: 200px;
-        }
-        h1 {
-            font-size: 24px;
+            max-width: 150px;
             margin-bottom: 20px;
         }
-        p {
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #017efd;
+        }
+        p, ol {
             font-size: 16px;
             margin: 10px 0;
+            line-height: 1.6;
+            text-align: left;
         }
         .twitter {
             margin-top: 20px;
-            margin-bottom: 30px;
             font-size: 14px;
             color: #555;
             text-align: center;
@@ -66,22 +74,69 @@
         .twitter a:hover {
             text-decoration: underline;
         }
+        .accordion {
+            background-color: #017efd;
+            color: white;
+            cursor: pointer;
+            padding: 12px;
+            width: 100%;
+            text-align: left;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            border-radius: 4px;
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .accordion:hover {
+            background-color: #035fbb;
+        }
+        .panel {
+            padding: 0 18px;
+            background-color: white;
+            display: none;
+            overflow: hidden;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+        .panel.show {
+            display: block;
+        }
+        .accordion-icon {
+            font-size: 20px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <img src="visionapplist.png" alt="Logo" class="logo">
+        <img src="visionapplist.png" alt="Vision App List Logo" class="logo">
         <h1>Search for an App</h1>
-        <p>Due to some restrictions on the Apple website, please visit the link and copy the first few lines of the JSON.</p>
-        <b>(you don't need to be precise, as long as the first line is present)</b>
+        <button class="accordion">
+            Why this website? 
+            <span class="accordion-icon">+</span>
+        </button>
+        <div class="panel">
+            <p>If you are using a Vision Pro with a non-US Apple ID, you might face issues accessing the App Store and downloading apps. This website helps you bypass this limitation by allowing you to search for apps and download them despite regional restrictions.</p>
+        </div>
+        <p>Please follow these steps:</p>
+        <ol>
+            <li>Enter the name of the app you want to download and click "Generate Link and Redirect".</li>
+            <li>A new tab will open. Copy the first few lines of the JSON data from the page (it's fine as long as the first line is included).</li>
+            <li>Return to this page and paste the copied JSON data into the field below.</li>
+            <li>Click "Extract App ID and Go to Banner Page" to proceed.</li>
+        </ol>
         <input type="text" id="searchInput" placeholder="Enter app name...">
         <button onclick="redirectToAppPage()">Generate Link and Redirect</button>
-        <p>After opening the link, copy the entire content of the page and paste it into the field below:</p>
+        <p>After opening the link and copying, paste into the field below:</p>
         <textarea id="pageContent" rows="10" placeholder="Paste the page content here..."></textarea>
         <button onclick="extractAppId()">Extract App ID and Go to Banner Page</button>
     </div>
     <div class="twitter">
-        <p>Follow me on X: <a href="https://x.com/crinquand_paul" target="_blank">@crinquand_paul</a></p>
+        <p>Follow me on Twitter: <a href="https://x.com/crinquand_paul" target="_blank">@crinquand_paul</a></p>
     </div>
 
     <script>
@@ -106,6 +161,22 @@
         } else {
             alert('App ID not found. Please ensure you copied the entire page content.');
         }
+    }
+
+    var acc = document.getElementsByClassName("accordion");
+    for (var i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            var icon = this.querySelector('.accordion-icon');
+            if (panel.classList.contains('show')) {
+                panel.classList.remove('show');
+                icon.textContent = '+';
+            } else {
+                panel.classList.add('show');
+                icon.textContent = '-';
+            }
+        });
     }
     </script>
 </body>
