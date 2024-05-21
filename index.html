@@ -4,11 +4,15 @@
     <title>App Finder</title>
     <style>
         body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background-color: #fff;
             margin: 0;
             padding: 20px;
             color: #333;
+            min-height: 100vh;
         }
         .container {
             max-width: 600px;
@@ -24,7 +28,7 @@
             box-sizing: border-box;
         }
         button {
-            background-color: #68cab3;
+            background-color: #017efd;
             color: white;
             padding: 12px 20px;
             margin: 10px 0;
@@ -34,7 +38,11 @@
             font-size: 16px;
         }
         button:hover {
-            background-color: #56a895;
+            background-color: #035fbb;
+        }
+        img.logo {
+            left: auto;
+            max-width: 200px;
         }
         h1 {
             font-size: 24px;
@@ -44,18 +52,36 @@
             font-size: 16px;
             margin: 10px 0;
         }
+        .twitter {
+            margin-top: 20px;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: #555;
+            text-align: center;
+        }
+        .twitter a {
+            color: #1da1f2;
+            text-decoration: none;
+        }
+        .twitter a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <img src="visionapplist.png" alt="Logo" class="logo">
         <h1>Search for an App</h1>
-        <p>Due to some restrictions on the apple website, please visit the link and copy the first few lines of the website.</p>
-        <b> (you don't need to be precise, as long as the first line is present)</b>
+        <p>Due to some restrictions on the Apple website, please visit the link and copy the first few lines of the website.</p>
+        <b>(you don't need to be precise, as long as the first line is present)</b>
         <input type="text" id="searchInput" placeholder="Enter app name...">
         <button onclick="redirectToAppPage()">Generate Link and Redirect</button>
         <p>After opening the link, copy the entire content of the page and paste it into the field below:</p>
         <textarea id="pageContent" rows="10" placeholder="Paste the page content here..."></textarea>
         <button onclick="extractAppId()">Extract App ID and Go to Banner Page</button>
+    </div>
+    <div class="twitter">
+        <p>Follow me on X: <a href="https://x.com/crinquand_paul" target="_blank">@crinquand_paul</a></p>
     </div>
 
     <script>

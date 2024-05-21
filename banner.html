@@ -20,6 +20,10 @@
             font-size: 24px;
             margin-bottom: 20px;
         }
+        img.logo {
+            left: auto;
+            max-width: 200px;
+        }
         p {
             font-size: 18px;
             margin: 10px 0;
@@ -41,7 +45,8 @@
 
             document.head.appendChild(metaTag);
 
-            document.getElementById('appNameDisplay').innerText = `Thank you for using VisionAppList to download ${appName}!\n\n please click on the download button on the banner to begin downloading.`;
+            document.getElementById('appNameDisplay').innerHTML = `Thank you for using VisionAppList to download <b>${appName}</b>! <br><br> please click on the download button on the banner to begin downloading.`;
+
         } else {
             document.getElementById('appNameDisplay').innerText = 'No App ID or name found in URL. Please go back and enter the App ID.';
         }
@@ -50,6 +55,7 @@
 </head>
 <body>
     <div class="container">
+        <img src="visionapplist.png" alt="Logo" class="logo">
         <h1>App Download</h1>
         <p id="appNameDisplay"></p>
     </div>
