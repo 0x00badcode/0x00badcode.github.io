@@ -2,16 +2,61 @@
 <html>
 <head>
     <title>App Finder</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #fff;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #68cab3;
+            color: white;
+            padding: 12px 20px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #56a895;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+    </style>
 </head>
 <body>
-    <h1>Search for an App</h1>
-    <input type="text" id="searchInput" placeholder="Enter app name...">
-    <button onclick="redirectToAppPage()">Generate Link and Redirect</button>
-    <p>After opening the link, copy the entire content of the page and paste it into the field below:</p>
-    <textarea id="pageContent" rows="10" cols="50" placeholder="Paste the page content here..."></textarea>
-    <button onclick="extractAppId()">Extract App ID</button>
-    <p id="appIdDisplay">App ID will be displayed here.</p>
-    <button id="bannerButton" style="display:none;" onclick="redirectToBanner()">Go to Banner Page</button>
+    <div class="container">
+        <h1>Search for an App</h1>
+        <p>Due to some restrictions on the apple website, please visit the link and copy the first few lines of the website.</p>
+        <b> (you don't need to be precise, as long as the first line is present)</b>
+        <input type="text" id="searchInput" placeholder="Enter app name...">
+        <button onclick="redirectToAppPage()">Generate Link and Redirect</button>
+        <p>After opening the link, copy the entire content of the page and paste it into the field below:</p>
+        <textarea id="pageContent" rows="10" placeholder="Paste the page content here..."></textarea>
+        <button onclick="extractAppId()">Extract App ID and Go to Banner Page</button>
+    </div>
 
     <script>
     function redirectToAppPage() {
@@ -23,29 +68,17 @@
     }
 
     function extractAppId() {
+        var searchTerm = document.getElementById('searchInput').value;
         var pageContent = document.getElementById('pageContent').value;
         var appIdMatch = pageContent.match(/"id":"(\d+)"/);
         if (appIdMatch && appIdMatch[1]) {
             var appId = appIdMatch[1];
-            document.getElementById('appIdDisplay').textContent = `App ID: ${appId}`;
-
-            // Store the appId for redirection
             localStorage.setItem('appId', appId);
-
-            // Show the button to go to the banner page
-            document.getElementById('bannerButton').style.display = 'block';
-        } else {
-            document.getElementById('appIdDisplay').textContent = 'App ID not found. Please ensure you copied the entire page content.';
-        }
-    }
-
-    function redirectToBanner() {
-        var appId = localStorage.getItem('appId');
-        if (appId) {
-            var bannerUrl = `banner.html?appId=${appId}`;
+            localStorage.setItem('appName', searchTerm);
+            var bannerUrl = `banner.html?appId=${appId}&appName=${encodeURIComponent(searchTerm)}`;
             window.location.href = bannerUrl;
         } else {
-            alert('No App ID found. Please extract the App ID first.');
+            alert('App ID not found. Please ensure you copied the entire page content.');
         }
     }
     </script>
