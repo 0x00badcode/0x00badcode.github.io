@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vision App List</title>
     <style>
         body {
@@ -112,46 +114,59 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <img src="visionapplist.png" alt="Vision App List Logo" class="logo">
-        <h1>Search for an App</h1>
-        <button class="accordion">
-            Why this website? 
-            <span class="accordion-icon">+</span>
-        </button>
-        <div class="panel">
-            <p>If you are using a Vision Pro with a non-US Apple ID, you might face issues accessing the App Store and downloading apps. This website helps you bypass this limitation by allowing you to search for apps and download them despite regional restrictions.</p>
-        </div>
-        <p>Please follow these steps:</p>
-        <ol>
-            <li>Enter the name of the app you want to download and click "Generate Link and Redirect".</li>
-            <li>A new tab will open. Copy the first few lines of the JSON data from the page (it's fine as long as the first line is included).</li>
-            <li>Return to this page and paste the copied JSON data into the field below.</li>
-            <li>Click "Extract App ID and Go to Banner Page" to proceed.</li>
-        </ol>
-        <input type="text" id="searchInput" placeholder="Enter app name...">
-        <button onclick="redirectToAppPage()">Generate Link and Redirect</button>
-        <p>After opening the link and copying, paste into the field below:</p>
-        <textarea id="pageContent" rows="10" placeholder="Paste the page content here..."></textarea>
-        <button onclick="extractAppId()">Extract App ID and Go to Banner Page</button>
+<div class="container">
+    <img src="visionapplist.png" alt="Vision App List Logo" class="logo">
+    <h1>Search for an App</h1>
+    <button class="accordion">
+        Why this website?
+        <span class="accordion-icon">+</span>
+    </button>
+    <div class="panel">
+        <p>If you are using a Vision Pro with a non-US Apple ID, you might face issues accessing the App Store and downloading apps. This website helps you bypass this limitation by allowing you to search for apps and download them despite regional restrictions.</p>
     </div>
-    <div class="twitter">
-        <p>Follow me on Twitter: <a href="https://x.com/crinquand_paul" target="_blank">@crinquand_paul</a></p>
-    </div>
+    <p>Please follow these steps:</p>
+    <ol>
+        <li>Enter the name of the app you want to download and click "Generate Link and Redirect".</li>
+        <li>A new tab will open on the Apple Toolbox website. </li>
+        <li>Scroll down to the app section. </li>
+        <li>Search for the app, click on it and copy the "Content Link".</li>
+        <li>Return to this page and paste the "Content Link" into the field below.</li>
+        <li>Click "Extract App ID and Go to Banner Page" to proceed.</li>
+    </ol>
+    <input type="text" id="searchInput" placeholder="Enter app name...">
+    <button onclick="redirectToToolbox()">Generate Link and Redirect</button>
+    <p>After opening the link and copying, paste the "Content Link" here:</p>
+    <textarea id="appLink" rows="2" placeholder="Paste the content link here..."></textarea>
+    <button onclick="extractAppId()">Extract App ID and Go to Banner Page</button>
+</div>
+<div class="twitter">
+    <p>Follow me on Twitter: <a href="https://x.com/crinquand_paul" target="_blank">@crinquand_paul</a></p>
+</div>
 
-    <script>
-    function redirectToAppPage() {
+<script>
+    function redirectToToolbox() {
         var searchTerm = document.getElementById('searchInput').value;
         var encodedSearchTerm = encodeURIComponent(searchTerm.trim());
-        var targetUrl = `https://tools.applemediaservices.com/api/apple-media/apps/US/search.json?types=apps,app-bundles&term=${encodedSearchTerm}&limit=25&l=en-US&platform=iphone&additionalPlatforms=iphone,mac,appletv,ipad,watch,web`;
-
+        var targetUrl = `https://toolbox.marketingtools.apple.com/en-us?q=${encodedSearchTerm}`;
         window.open(targetUrl, '_blank');
     }
 
     function extractAppId() {
-        var searchTerm = document.getElementById('searchInput').value;
-        var pageContent = document.getElementById('pageContent').value;
-        var appIdMatch = pageContent.match(/"id":"(\d+)"/);
+        var appLink = document.getElementById('appLink').value.trim();
+
+        var searchTerm = document.getElementById('searchInput').value.trim();
+
+        if (!searchTerm) {
+            var searchTermMatch = appLink.match(/\/us\/app\/([^\/]+)\//);  // Match the app name in the URL
+            if (searchTermMatch && searchTermMatch[1]) {
+                searchTerm = searchTermMatch[1];  // Extracted app name, e.g., "safari"
+                document.getElementById('searchInput').value = searchTerm;  // Set the extracted search term in the input box
+            } else {
+                alert('App name not found in the link. Please ensure you copied the correct "Content Link" from the Apple page.');
+                return;
+            }
+        }
+        var appIdMatch = appLink.match(/\/id(\d+)\?/);
         if (appIdMatch && appIdMatch[1]) {
             var appId = appIdMatch[1];
             localStorage.setItem('appId', appId);
@@ -159,25 +174,11 @@
             var bannerUrl = `banner.html?appId=${appId}&appName=${encodeURIComponent(searchTerm)}`;
             window.location.href = bannerUrl;
         } else {
-            alert('App ID not found. Please ensure you copied the entire page content.');
+            alert('App ID not found. Please ensure you copied the correct "Content Link" from the Apple page.');
         }
     }
 
-    var acc = document.getElementsByClassName("accordion");
-    for (var i = 0; i < acc.length; i++) {
-        acc[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var panel = this.nextElementSibling;
-            var icon = this.querySelector('.accordion-icon');
-            if (panel.classList.contains('show')) {
-                panel.classList.remove('show');
-                icon.textContent = '+';
-            } else {
-                panel.classList.add('show');
-                icon.textContent = '-';
-            }
-        });
-    }
-    </script>
+
+</script>
 </body>
 </html>
